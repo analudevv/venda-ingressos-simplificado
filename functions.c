@@ -92,20 +92,10 @@ void comprarIngresso(void){
     printf("  1 | Sessão 1\n");
     printf("  2 | Sessão 2\n");
     printf("=================================================\n");
-
-    // Escolha e validação da sessão
-    do {
-        printf("Escolha a sessão (1 ou 2): ");
-        if (scanf("%d", &session) != 1) {
-            while (getchar() != '\n'); // Limpa entrada inválida
-            session = -1;
-        } else {
-            while (getchar() != '\n'); // Limpa buffer
-        }
-        if (session != 1 && session != 2) {
-            printf("\nSessão inválida. Tente novamente.\n");
-        }
-    } while (session != 1 && session != 2);
+    
+    scanf("%d", &session);
+    // limpar o ENTER
+    getchar();
 
     int sessaoIdx = session - 1;
 
@@ -120,13 +110,8 @@ void comprarIngresso(void){
     // Escolha e validação do assento
     do {
         printf("Digite a fila (A-E) e o número da cadeira (1-6) (Ex: B 4): ");
-        if (scanf(" %c %d", &filaChar, &cadeiraNum) != 2) {
-            while (getchar() != '\n'); // Limpa entrada inválida
-            printf("\nEntrada inválida. Tente novamente.\n");
-            continue;
-        } else {
-            while (getchar() != '\n'); // Limpa buffer
-        }
+        scanf(" %c %d", &filaChar, &cadeiraNum);
+        getchar();
 
         // Converte a letra da fila para maiúsculo se necessário
         if (filaChar >= 'a' && filaChar <= 'e') {
@@ -158,17 +143,14 @@ void comprarIngresso(void){
         }
     } while (!valido);
 
-    // Solicita apenas idade (nome do cliente removido)
+    // Solicita idade
     int idade;
     printf("\nDigite a idade do cliente: ");
-    while (scanf("%d", &idade) != 1 || idade < 0) {
-        while (getchar() != '\n');
-        printf("Idade inválida. Digite novamente: ");
-    }
-    while (getchar() != '\n'); // Limpa buffer pós idade
+    scanf("%d", &idade);
+    getchar();
 
-    // Determina se paga meia-entrada (menor que 18 ou maior/igual a 60)
-    int ehMeia = (idade < 18 || idade >= 60);
+    // Determina se paga meia-entrada (menor ou igual a 15 anos)
+    int ehMeia = (idade <= 15);
     float valorTicket = ehMeia ? 15.00f : 30.00f;
 
     printf("\n-------------------------------------------------\n");
@@ -177,8 +159,6 @@ void comprarIngresso(void){
 
     int opcaoPagamento;
     char forma[30] = "";
-    float valorEntregue = 0.0f;
-    float troco = 0.0f;
 
     // Processamento do pagamento
     do {
@@ -191,12 +171,8 @@ void comprarIngresso(void){
         printf("  4 | Dinheiro\n");
         printf("=================================================\n");
         printf("Opção: ");
-        if (scanf("%d", &opcaoPagamento) != 1) {
-            while (getchar() != '\n');
-            opcaoPagamento = -1;
-        } else {
-            while (getchar() != '\n'); // Limpa buffer
-        }
+        scanf("%d", &opcaoPagamento);
+        getchar();
 
         switch (opcaoPagamento) {
             case 1:
@@ -221,24 +197,8 @@ void comprarIngresso(void){
                 break;
             case 4:
                 strcpy(forma, "Dinheiro");
-                do {
-                    printf("\nValor do ingresso: R$ %.2f.\nDigite o valor em dinheiro recebido: R$ ", valorTicket);
-                    if (scanf("%f", &valorEntregue) != 1) {
-                        while (getchar() != '\n');
-                        valorEntregue = -1;
-                    } else {
-                        while (getchar() != '\n'); // Limpa buffer
-                    }
-                    if (valorEntregue < valorTicket) {
-                        printf("\nValor insuficiente. O ingresso custa R$ %.2f.\n", valorTicket);
-                    }
-                } while (valorEntregue < valorTicket);
-                troco = valorEntregue - valorTicket;
-                if (troco > 0) {
-                    printf(">>> Troco: R$ %.2f\n", troco);
-                } else {
-                    printf(">>> Pagamento recebido. Sem troco.\n");
-                }
+                printf("\nDinheiro recebido no valor de R$ %.2f!\n", valorTicket);
+                printf(">>> Pagamento confirmado!\n");
                 break;
             default:
                 printf("\nOpção de pagamento inválida. Tente novamente.\n");
@@ -306,19 +266,9 @@ void cancelarCompra(void){
     printf("  2 | Sessão 2\n");
     printf("=================================================\n");
 
-    // Escolha e validação da sessão
-    do {
-        printf("Escolha a sessão (1 ou 2): ");
-        if (scanf("%d", &session) != 1) {
-            while (getchar() != '\n'); // Limpa entrada inválida
-            session = -1;
-        } else {
-            while (getchar() != '\n'); // Limpa buffer
-        }
-        if (session != 1 && session != 2) {
-            printf("\nSessão inválida. Tente novamente.\n");
-        }
-    } while (session != 1 && session != 2);
+    // Escolha da sessão para cancelar
+    scanf("%d", &session);
+    getchar();
 
     int sessaoIdx = session - 1;
 
@@ -327,13 +277,8 @@ void cancelarCompra(void){
     int filaIdx, cadeiraIdx;
 
     printf("\nDigite a fila (A-E) e o número da cadeira (1-6) para cancelar (Ex: B 4): ");
-    if (scanf(" %c %d", &filaChar, &cadeiraNum) != 2) {
-        while (getchar() != '\n'); // Limpa entrada inválida
-        printf("\nEntrada inválida.\n");
-        return;
-    } else {
-        while (getchar() != '\n'); // Limpa buffer
-    }
+    scanf(" %c %d", &filaChar, &cadeiraNum);
+    getchar();
 
     // Converte a fila para maiúsculo
     if (filaChar >= 'a' && filaChar <= 'e') {
@@ -447,28 +392,16 @@ void relatorioVendas(void){
 void gerenciarReinicializacao(){
     int ehAdmin;
     printf("\n=== REINICIAR SISTEMA ===\n");
-    printf("Você é administrador? (1 - Sim, 0 - Não): ");
-    if (scanf("%d", &ehAdmin) != 1) {
-        while (getchar() != '\n'); // Limpa entrada inválida
-        ehAdmin = 0;
-    } else {
-        while (getchar() != '\n'); // Limpa buffer
-    }
+    char senha[50];
+    printf("Digite a senha de administrador: ");
+    fgets(senha, sizeof(senha), stdin);
+    senha[strcspn(senha, "\n")] = '\0'; // Remove o caractere \n
 
-    if (ehAdmin == 1) {
-        char senha[50];
-        printf("Digite a senha de administrador: ");
-        fgets(senha, sizeof(senha), stdin);
-        senha[strcspn(senha, "\n")] = '\0'; // Remove o caractere \n
-
-        if (strcmp(senha, "admin") == 0) {
-            inicializarAssentos();
-            printf("\nSistema reiniciado com sucesso! Todos os assentos estão livres e os arquivos de vendas foram apagados.\n");
-        } else {
-            printf("\nSenha incorreta! Acesso negado.\n");
-        }
+    if (strcmp(senha, "admin") == 0) {
+        inicializarAssentos();
+        printf("\nSistema reiniciado com sucesso! Todos os assentos estão livres e os arquivos de vendas foram apagados.\n");
     } else {
-        printf("\nAcesso negado. Apenas administradores podem reiniciar o sistema.\n");
+        printf("\nSenha incorreta! Acesso negado.\n");
     }
 }
 
