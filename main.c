@@ -7,16 +7,13 @@ int main(){
 
     do{
 
-        printf("\n=================================================\n");
-        printf("          SISTEMA DE VENDA DE INGRESSOS          \n");
-        printf("=================================================\n");
-        printf("  1 | Mostrar sessões e assentos\n");
-        printf("  2 | Comprar ingresso\n");
-        printf("  3 | Cancelar compra\n");
-        printf("  4 | Relatório de vendas\n");
-        printf("  5 | Reiniciar assentos\n");
-        printf("  0 | Sair do sistema\n");
-        printf("=================================================\n");
+        printf("\n================= SISTEMA DE VENDA DE INGRESSOS =================\n");
+        printf("  1 - Mostrar sessões e assentos\n");
+        printf("  2 - Comprar ingresso\n");
+        printf("  3 - Cancelar compra\n");
+        printf("  4 - Relatório de vendas\n");
+        printf("  5 - Reiniciar assentos\n");
+        printf("  0 - Sair do sistema\n\n"); 
         printf("Opção: ");
 
         scanf("%d", &option);
