@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "functions.h"
 
@@ -56,11 +57,17 @@ void mostrarSessoes(void){
     int session;
 
     printf("\n===========SESSÕES DISPONÍVEIS===========\n");
-    printf("1 - Sessão 1\n");
-    printf("2 - Sessão 2\n");
+    printf("1 - Mestres do Universo\n");
+    printf("2 - Interestelar\n");
     printf("Informe o número da sessão: ");
     scanf("%d", &session);
     getchar();
+
+    //Validação da sessão escolhida
+    if(session != 1 && session != 2){
+        printf("\nSessao invalida.\n");
+        return;
+    }
 
     if(session==1){
         mostrarAssentos(0);
@@ -75,15 +82,19 @@ void comprarIngresso(void){
     int session;
     printf("\n===========COMPRAR INGRESSO===========\n");
     printf("Sessões disponíveis:\n");
-    printf("  1 | Sessão 1\n");
-    printf("  2 | Sessão 2\n");
+    printf("1 - Mestres do Universo\n");
+    printf("2 - Interestelar\n");
     printf("Informe o número da sessão: ");
     scanf("%d", &session);
     getchar();
 
+    if(session != 1 && session != 2){
+        printf("\nSessao invalida.\n");
+        return;
+    }
+
     int sessaoIdx = session - 1;
 
-    printf("\n>>> Assentos para a Sessão %d <<<\n", session);
     mostrarAssentos(sessaoIdx);
 
     char filaChar;
@@ -213,13 +224,18 @@ void cancelarCompra(void){
     int session;
     printf("\n===========CANCELAR COMPRA===========\n");
     printf("Sessões disponíveis:\n");
-    printf("1- Sessão 1\n");
-    printf("2- Sessão 2\n");
+    printf("1- Mestres do Universo\n");
+    printf("2- Interestelar\n");
     printf("Informe o número da sessão que deseja cancelar: ");
 
     // Escolha da sessão para cancelar
     scanf("%d", &session);
     getchar();
+
+    if(session != 1 && session != 2){
+        printf("\nSessao invalida.\n");
+        return;
+    }
 
     int sessaoIdx = session - 1;
 
@@ -273,65 +289,75 @@ void cancelarCompra(void){
 }
 
 void relatorioVendas(void){
-    printf("============== RELATORIO DE VENDAS ==============");
+    printf("\n============== RELATORIO DE VENDAS ==============\n");
     int totalVendidos = 0;
     int totalMeia = 0;
     int totalNormal = 0;
     float totalFaturamento = 0.0f;
 
+    int vendidosPorSessao[2] = {0, 0};
+    int meiaPorSessao[2] = {0, 0};
+    int normalPorSessao[2] = {0, 0};
+    float faturamentoPorSessao[2] = {0.0f, 0.0f};
+
     // Percorre todas as sessões e assentos
     for (int sessao = 0; sessao < 2; sessao++) {
-        printf("\nSessão %d:\n", sessao + 1);
-        int vendidosSessao = 0;
-        int cabecalhoMostrado = 0;
-
         for (int fila = 0; fila < 5; fila++) {
             for (int cadeira = 0; cadeira < 6; cadeira++) {
                 if (sessoes[sessao][fila][cadeira].ocupado == 1) {
-                    if (!cabecalhoMostrado) {
-                        printf(" Assento | Tipo     | Pagamento | Valor\n");
-                        printf("---------------------------------------------------------\n");
-                        cabecalhoMostrado = 1;
-                    }
-                    vendidosSessao++;
+                    vendidosPorSessao[sessao]++;
                     totalVendidos++;
+                    faturamentoPorSessao[sessao] += sessoes[sessao][fila][cadeira].valorPago;
+                    totalFaturamento += sessoes[sessao][fila][cadeira].valorPago;
                     if (sessoes[sessao][fila][cadeira].ehMeia) {
+                        meiaPorSessao[sessao]++;
                         totalMeia++;
                     } else {
+                        normalPorSessao[sessao]++;
                         totalNormal++;
                     }
-                    totalFaturamento += sessoes[sessao][fila][cadeira].valorPago;
-                    printf("  %c-%d    | %-8s | %-9s | R$ %.2f\n",
-                           'A' + fila, cadeira + 1,
-                           sessoes[sessao][fila][cadeira].ehMeia ? "Meia" : "Normal",
-                           sessoes[sessao][fila][cadeira].formaPagamento,
-                           sessoes[sessao][fila][cadeira].valorPago);
                 }
             }
         }
-        if (vendidosSessao == 0) {
-            printf("  Nenhum ingresso vendido para esta sessão.\n");
-        } else {
-            printf("---------------------------------------------------------\n");
-        }
     }
 
-    // Exibe resumo geral das vendas
+    // Relatório por sessão
+    int totalLugares = 5 * 6; // 30 lugares por sessão
+    for (int i = 0; i < 2; i++) {
+        int livres = totalLugares - vendidosPorSessao[i];
+        printf("\n----- Sessão %d -----\n", i + 1);
+        printf("Ingressos vendidos: %d\n", vendidosPorSessao[i]);
+        printf("Meia-entrada: %d\n", meiaPorSessao[i]);
+        printf("Ingresso normal: %d\n", normalPorSessao[i]);
+        printf("Lugares livres: %d\n", livres);
+        printf("Faturamento: R$ %.2f\n", faturamentoPorSessao[i]);
+    }
+
+    // Resumo geral
     printf("\n===========RESUMO GERAL===========\n");
     printf("Total de ingressos vendidos: %d\n", totalVendidos);
     printf("Meia-entrada: %d\n", totalMeia);
     printf("Ingresso normal: %d\n", totalNormal);
     printf("Faturamento total: R$ %.2f\n", totalFaturamento);
+    printf("\nSessão mais procurada: \n");
+    if (vendidosPorSessao[0] == 0 && vendidosPorSessao[1] == 0) {
+        printf("Nenhum ingresso vendido ainda.\n");
+    } else if (vendidosPorSessao[0] > vendidosPorSessao[1]) {
+        printf("Sessão 1 - Mestres do Universo com %d ingressos vendidos\n", vendidosPorSessao[0]);
+    } else if (vendidosPorSessao[1] > vendidosPorSessao[0]) {
+        printf("Sessão 2 - Interestelar com %d ingressos vendidos\n", vendidosPorSessao[1]);
+    } else {
+        printf("Empate! Ambas as sessões com %d ingressos vendidos\n", vendidosPorSessao[0]);
+    }
 
 }
 
 void gerenciarReinicializacao(){
-    printf("===========REINICIAR SISTEMA===========");
+    printf("===========REINICIAR SISTEMA===========\n");
     char senha[50];
     printf("Digite a senha de administrador: ");
     fgets(senha, sizeof(senha), stdin);
     senha[strcspn(senha, "\n")] = '\0'; // Remove o caractere \n
-
     if (strcmp(senha, "admin") == 0) {
         inicializarAssentos();
         printf("\nSistema reiniciado com sucesso! Todos os assentos estao livres.\n");
@@ -343,4 +369,5 @@ void gerenciarReinicializacao(){
 void aguardarEnter() {
     printf("\nPressione ENTER para voltar ao menu principal...");
     getchar();
+    system("clear");
 }
