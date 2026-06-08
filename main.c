@@ -7,7 +7,7 @@ int main(){
 
     do{
 
-        printf("\n================= SISTEMA DE VENDA DE INGRESSOS =================\n");
+        printf("\n>>> SISTEMA DE VENDA DE INGRESSOS <<<\n");
         printf("  1 - Mostrar sessões e assentos\n");
         printf("  2 - Comprar ingresso\n");
         printf("  3 - Cancelar compra\n");

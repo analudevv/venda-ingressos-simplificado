@@ -4,11 +4,10 @@
 
 #include "functions.h"
 
+//Struct para informações de cada assento
 typedef struct {
     int ocupado;
-    int idade;
     int ehMeia;
-    char formaPagamento[30];
     float valorPago;
 } Assento;
 
@@ -19,9 +18,7 @@ void inicializarAssentos(){
         for(int fila = 0; fila < 5; fila++){
             for(int cadeira = 0; cadeira < 6; cadeira++){
                 sessoes[sessao][fila][cadeira].ocupado = 0;
-                sessoes[sessao][fila][cadeira].idade = 0;
                 sessoes[sessao][fila][cadeira].ehMeia = 0;
-                sessoes[sessao][fila][cadeira].formaPagamento[0] = '\0';
                 sessoes[sessao][fila][cadeira].valorPago = 0.0f;
             }
         }
@@ -56,7 +53,7 @@ void mostrarAssentos(int sessao)
 void mostrarSessoes(void){
     int session;
 
-    printf("\n===========SESSÕES DISPONÍVEIS===========\n");
+    printf("\n>>> SESSÕES DISPONÍVEIS <<<\n");
     printf("1 - Mestres do Universo\n");
     printf("2 - Interestelar\n");
     printf("Informe o número da sessão: ");
@@ -80,7 +77,7 @@ void mostrarSessoes(void){
 
 void comprarIngresso(void){
     int session;
-    printf("\n===========COMPRAR INGRESSO===========\n");
+    printf("\n>>> COMPRAR INGRESSO <<<\n");
     printf("Sessões disponíveis:\n");
     printf("1 - Mestres do Universo\n");
     printf("2 - Interestelar\n");
@@ -155,7 +152,7 @@ void comprarIngresso(void){
 
     // Processamento do pagamento
     do {
-        printf("===========FORMA DE PAGAMENTO===========\n");
+        printf(">>> FORMA DE PAGAMENTO <<<\n");
         printf("1 - Pix\n");
         printf("2 - Cartão de Crédito\n");
         printf("3 - Cartão de Débito\n");
@@ -198,11 +195,7 @@ void comprarIngresso(void){
 
     // Salva as informações do ingresso comprado
     sessoes[sessaoIdx][filaIdx][cadeiraIdx].ocupado = 1;
-    sessoes[sessaoIdx][filaIdx][cadeiraIdx].idade = idade;
     sessoes[sessaoIdx][filaIdx][cadeiraIdx].ehMeia = ehMeia;
-    strncpy(sessoes[sessaoIdx][filaIdx][cadeiraIdx].formaPagamento, forma,
-    sizeof(sessoes[sessaoIdx][filaIdx][cadeiraIdx].formaPagamento) - 1);
-    sessoes[sessaoIdx][filaIdx][cadeiraIdx].formaPagamento[sizeof(sessoes[sessaoIdx][filaIdx][cadeiraIdx].formaPagamento) - 1] = '\0';
     sessoes[sessaoIdx][filaIdx][cadeiraIdx].valorPago = valorTicket;
 
     // Nota fiscal exibida no terminal
@@ -222,7 +215,7 @@ void comprarIngresso(void){
 
 void cancelarCompra(void){
     int session;
-    printf("\n===========CANCELAR COMPRA===========\n");
+    printf("\n>>> CANCELAR COMPRA <<<\n");
     printf("Sessões disponíveis:\n");
     printf("1- Mestres do Universo\n");
     printf("2- Interestelar\n");
@@ -272,24 +265,19 @@ void cancelarCompra(void){
         printf("\nEste assento já está livre!\n");
     } else {
         float valorReembolso = sessoes[sessaoIdx][filaIdx][cadeiraIdx].valorPago;
-        char formaPagamento[30];
-        strcpy(formaPagamento, sessoes[sessaoIdx][filaIdx][cadeiraIdx].formaPagamento);
 
         sessoes[sessaoIdx][filaIdx][cadeiraIdx].ocupado = 0;
-        sessoes[sessaoIdx][filaIdx][cadeiraIdx].idade = 0;
         sessoes[sessaoIdx][filaIdx][cadeiraIdx].ehMeia = 0;
-        sessoes[sessaoIdx][filaIdx][cadeiraIdx].formaPagamento[0] = '\0';
         sessoes[sessaoIdx][filaIdx][cadeiraIdx].valorPago = 0.0f;
 
-        printf("===========COMPRA CANCELADA COM SUCESSO===========\n");
+        printf("\n>>> COMPRA CANCELADA COM SUCESSO <<<\n");
         printf("Assento Cancelado: %c-%d\n", 'A' + filaIdx, cadeiraNum);
         printf("Valor Reembolsado: R$ %.2f\n", valorReembolso);
-        printf("Forma de Retorno: %s\n", formaPagamento);
     }
 }
 
 void relatorioVendas(void){
-    printf("\n============== RELATORIO DE VENDAS ==============\n");
+    printf("\n>>> RELATORIO DE VENDAS <<<\n");
     int totalVendidos = 0;
     int totalMeia = 0;
     int totalNormal = 0;
@@ -334,7 +322,7 @@ void relatorioVendas(void){
     }
 
     // Resumo geral
-    printf("\n===========RESUMO GERAL===========\n");
+    printf("\n>>> RESUMO GERAL <<<\n");
     printf("Total de ingressos vendidos: %d\n", totalVendidos);
     printf("Meia-entrada: %d\n", totalMeia);
     printf("Ingresso normal: %d\n", totalNormal);
@@ -353,7 +341,7 @@ void relatorioVendas(void){
 }
 
 void gerenciarReinicializacao(){
-    printf("===========REINICIAR SISTEMA===========\n");
+    printf(">>> REINICIAR SISTEMA <<<\n");
     char senha[50];
     printf("Digite a senha de administrador: ");
     fgets(senha, sizeof(senha), stdin);
