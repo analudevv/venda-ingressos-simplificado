@@ -1,0 +1,152 @@
+# 🎟️ Sistema de Venda de Ingressos em C
+
+Sistema desenvolvido em **Linguagem C** para simular a venda de ingressos de um cinema, permitindo ao usuário visualizar sessões, escolher assentos, realizar pagamentos, cancelar compras e consultar um relatório de vendas.
+
+## 📚 Objetivo
+
+Este projeto foi desenvolvido como atividade da disciplina **Introdução à Computação**, com o objetivo de aplicar conceitos fundamentais de programação, como:
+
+* Estruturas condicionais (`if`/`else`);
+* Estruturas de repetição (`for` e `while`);
+* Funções;
+* Structs;
+* Matrizes multidimensionais;
+* Modularização do código;
+* Entrada e saída de dados.
+
+---
+
+## 🚀 Funcionalidades
+
+* 🎬 Visualizar sessões disponíveis;
+* 🪑 Exibir mapa de assentos de cada sessão;
+* 💳 Comprar ingresso;
+* 👶 Aplicar meia-entrada para menores de 16 anos;
+* 💰 Escolher forma de pagamento;
+* ❌ Cancelar compra de ingresso;
+* 📊 Gerar relatório de vendas;
+* 🔄 Reinicializar todos os assentos (modo administrador).
+
+---
+
+## 🏗️ Estrutura do Projeto
+
+```text
+📁 projeto
+│
+├── main.c
+├── functions.c
+├── functions.h
+└── README.md
+```
+
+---
+
+## 📋 Estrutura de Dados
+
+O sistema utiliza uma `struct` para representar cada assento do cinema.
+
+```c
+typedef struct{
+    int ocupado;
+    int ehMeia;
+    float valorPago;
+} Assento;
+```
+
+Além disso, os assentos são armazenados em uma matriz tridimensional:
+
+```c
+Assento sessoes[2][5][6];
+```
+
+Onde:
+
+* `2` → quantidade de sessões;
+* `5` → quantidade de filas;
+* `6` → quantidade de cadeiras por fila.
+
+Cada sessão possui **30 assentos**, totalizando **60 lugares disponíveis**.
+
+---
+
+## 🖥️ Menu Principal
+
+```text
+1 - Mostrar sessões e assentos
+2 - Comprar ingresso
+3 - Cancelar compra
+4 - Relatório de vendas
+5 - Reiniciar assentos
+0 - Sair
+```
+
+---
+
+## 💳 Processo de Compra
+
+1. Seleção da sessão;
+2. Escolha do assento;
+3. Verificação de disponibilidade;
+4. Cálculo do valor do ingresso;
+5. Escolha da forma de pagamento;
+6. Confirmação da compra.
+
+---
+
+## 📊 Relatório de Vendas
+
+O relatório apresenta:
+
+* Quantidade de ingressos vendidos;
+* Quantidade de meia-entrada;
+* Quantidade de ingressos integrais;
+* Faturamento total do sistema;
+* Informações das vendas realizadas.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* Linguagem C
+* GCC
+* Visual Studio Code
+* Git
+* GitHub
+
+---
+
+## ▶️ Como executar
+
+Compile o projeto utilizando o GCC:
+
+```bash
+gcc main.c functions.c -o sistema
+```
+
+Depois execute:
+
+```bash
+./sistema
+```
+
+---
+
+## 📖 Conceitos aplicados
+
+* Structs
+* Matrizes tridimensionais
+* Modularização
+* Funções
+* Condicionais
+* Laços de repetição
+* Validação de entradas
+* Manipulação de dados em memória
+
+---
+
+## 👩‍💻 Autora
+
+**Ana Luiza**
+
+Projeto desenvolvido para fins acadêmicos na disciplina de **Introdução à Computação**.
